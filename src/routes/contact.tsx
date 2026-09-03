@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PageHeading, SiteFooter, SiteHeader } from "@/components/SiteChrome";
+import { CONTACTS } from "@/data/dovgan";
 import { useSiteContent } from "@/hooks/useSiteContent";
 
 export const Route = createFileRoute("/contact")({
