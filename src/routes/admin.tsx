@@ -40,7 +40,7 @@ function Field({
   label: string;
   value: string;
   onChange: (v: string) => void;
-  multiline?: boolean;
+  multiline?: boolean | undefined;
 }) {
   return (
     <label className="block">
@@ -247,7 +247,7 @@ function AdminPage() {
 
   useEffect(() => {
     if (!authed) return;
-    void load().then((r) => setContent(mergeContent(r.data)));
+    void load().then((r) => setContent(mergeContent(JSON.parse(r.json))));
   }, [authed, load]);
 
   const patch = <K extends keyof SiteContent>(key: K, value: SiteContent[K]) =>
