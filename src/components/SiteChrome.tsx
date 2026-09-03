@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { ARTIST } from "@/data/dovgan";
+import { useSiteContent } from "@/hooks/useSiteContent";
 
 const NAV = [
   { to: "/", label: "Home" },
@@ -111,6 +111,7 @@ export function FloatingMenu() {
 }
 
 export function SiteHeader({ compact = false }: { compact?: boolean }) {
+  const { artist: ARTIST } = useSiteContent();
   return (
     <>
       <FloatingMenu />
@@ -131,6 +132,7 @@ export function SiteHeader({ compact = false }: { compact?: boolean }) {
 }
 
 export function SiteFooter() {
+  const { artist: ARTIST } = useSiteContent();
   return (
     <footer className="mt-32 border-t border-border">
       <div className="mx-auto flex max-w-[1400px] flex-col gap-6 px-6 py-10 text-[0.6875rem] uppercase tracking-[0.24em] text-muted-foreground md:flex-row md:items-center md:justify-between md:px-12">

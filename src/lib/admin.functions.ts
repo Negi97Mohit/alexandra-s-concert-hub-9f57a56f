@@ -63,7 +63,7 @@ export const loadSiteContent = createServerFn({ method: "GET" }).handler(async (
     .eq("id", "singleton")
     .maybeSingle();
   if (error) throw new Error(error.message);
-  return { data: (data?.data ?? {}) as Record<string, unknown> };
+  return { json: JSON.stringify(data?.data ?? {}) };
 });
 
 export const saveSiteContent = createServerFn({ method: "POST" })

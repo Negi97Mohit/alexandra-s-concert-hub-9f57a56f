@@ -14,6 +14,9 @@ import {
   REVIEWS,
   type Concert,
 } from "@/data/dovgan";
+import type { ImageFit, ImageSetting } from "@/lib/image-slots";
+
+export type SitePhoto = { src: string; caption: string; fit?: ImageFit };
 
 export type SiteContent = {
   artist: typeof ARTIST;
@@ -22,13 +25,15 @@ export type SiteContent = {
   bioDate: string;
   bioLanguages: typeof BIO_LANGUAGES;
   quotes: typeof QUOTES;
-  photos: typeof PHOTOS;
+  photos: SitePhoto[];
   concerts: Concert[];
   news: typeof NEWS;
   media: typeof MEDIA;
   reviews: typeof REVIEWS;
   allReviewsUrl: string;
   contacts: typeof CONTACTS;
+  /** Named image slots on the home and biography pages. */
+  images: Record<string, ImageSetting>;
 };
 
 /** Fallback content shipped with the site; the admin page overrides these values. */
@@ -46,6 +51,13 @@ export const DEFAULT_CONTENT: SiteContent = {
   reviews: REVIEWS,
   allReviewsUrl: ALL_REVIEWS_URL,
   contacts: CONTACTS,
+  images: {
+    homeHero: { src: PHOTOS[7]!.src, fit: "cover" },
+    homeBio: { src: PHOTOS[6]!.src, fit: "cover" },
+    bioPortrait: { src: PHOTOS[1]!.src, fit: "cover" },
+    bioLowerLeft: { src: PHOTOS[8]!.src, fit: "cover" },
+    bioLowerRight: { src: PHOTOS[4]!.src, fit: "cover" },
+  },
 };
 
 /** Merge stored overrides (per top-level section) on top of the defaults. */
@@ -60,5 +72,6 @@ export function mergeContent(stored: unknown): SiteContent {
       (merged as any)[key] = value;
     }
   }
+  merged.images = { ...DEFAULT_CONTENT.images, ...(overrides.images ?? {}) };
   return merged;
 }

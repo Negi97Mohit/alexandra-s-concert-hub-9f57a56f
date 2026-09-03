@@ -89,6 +89,8 @@ export type Concert = {
   infoUrl?: string;
   /** Optional link to the ticketing / booking page for this concert. */
   ticketsUrl?: string;
+  /** Optional longer description shown when the visitor opens "More info". */
+  infoText?: string;
 };
 
 export const CONCERTS: Concert[] = [

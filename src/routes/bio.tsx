@@ -1,7 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { PageHeading, SiteFooter, SiteHeader } from "@/components/SiteChrome";
-import { BIO_DATE, BIO_LANGUAGES, BIO_PARAGRAPHS, PHOTOS, QUOTES } from "@/data/dovgan";
+import { useSiteContent } from "@/hooks/useSiteContent";
+import { SiteImage } from "@/components/SiteImage";
 
 export const Route = createFileRoute("/bio")({
   head: () => ({
@@ -25,6 +26,13 @@ export const Route = createFileRoute("/bio")({
 });
 
 function BioPage() {
+  const {
+    bioDate: BIO_DATE,
+    bioLanguages: BIO_LANGUAGES,
+    bioParagraphs: BIO_PARAGRAPHS,
+    quotes: QUOTES,
+    images,
+  } = useSiteContent();
   const [lang, setLang] = useState("ENG");
   const active = BIO_LANGUAGES.find((l) => l.label === lang) ?? BIO_LANGUAGES[0];
 
@@ -37,10 +45,11 @@ function BioPage() {
         <div className="grid gap-14 lg:grid-cols-[0.85fr_1.15fr] lg:gap-20">
           {/* Left column — portrait, sticky on large screens */}
           <aside className="lg:sticky lg:top-16 lg:self-start">
-            <img
-              src={PHOTOS[1]!.src}
-              alt="Alexandra Dovgan portrait by Vladimir Volkov"
-              className="aspect-[3/4] w-full object-cover"
+            <SiteImage
+              image={images["bioPortrait"]}
+              alt="Alexandra Dovgan portrait"
+              loading="eager"
+              className="aspect-[3/4] w-full"
             />
             <p className="mt-3 text-[0.6875rem] uppercase tracking-[0.24em] text-muted-foreground">
               Photography by Vladimir Volkov
@@ -142,17 +151,15 @@ function BioPage() {
         </div>
 
         <div className="mt-24 grid gap-6 sm:grid-cols-2">
-          <img
-            src={PHOTOS[8]!.src}
-            alt="Alexandra Dovgan on stage, photographed by Vladimir Volkov"
-            loading="lazy"
-            className="aspect-[4/3] w-full object-cover"
+          <SiteImage
+            image={images["bioLowerLeft"]}
+            alt="Alexandra Dovgan on stage"
+            className="aspect-[4/3] w-full"
           />
-          <img
-            src={PHOTOS[4]!.src}
-            alt="Alexandra Dovgan at the piano, photographed by Vladimir Volkov"
-            loading="lazy"
-            className="aspect-[4/3] w-full object-cover"
+          <SiteImage
+            image={images["bioLowerRight"]}
+            alt="Alexandra Dovgan at the piano"
+            className="aspect-[4/3] w-full"
           />
         </div>
       </div>
