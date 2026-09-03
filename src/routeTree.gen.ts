@@ -10,16 +10,23 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as BioRouteImport } from './routes/bio'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as GalleryRouteImport } from './routes/gallery'
 import { Route as MediaRouteImport } from './routes/media'
 import { Route as PressRouteImport } from './routes/press'
 import { Route as SeasonRouteImport } from './routes/season'
+import { Route as ApiPublicMediaSplatRouteImport } from './routes/api/public/media/$'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BioRoute = BioRouteImport.update({
@@ -52,60 +59,92 @@ const SeasonRoute = SeasonRouteImport.update({
   path: '/season',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicMediaSplatRoute = ApiPublicMediaSplatRouteImport.update({
+  id: '/api/public/media/$',
+  path: '/api/public/media/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
   '/bio': typeof BioRoute
   '/contact': typeof ContactRoute
   '/gallery': typeof GalleryRoute
   '/media': typeof MediaRoute
   '/press': typeof PressRoute
   '/season': typeof SeasonRoute
+  '/api/public/media/$': typeof ApiPublicMediaSplatRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
   '/bio': typeof BioRoute
   '/contact': typeof ContactRoute
   '/gallery': typeof GalleryRoute
   '/media': typeof MediaRoute
   '/press': typeof PressRoute
   '/season': typeof SeasonRoute
+  '/api/public/media/$': typeof ApiPublicMediaSplatRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
   '/bio': typeof BioRoute
   '/contact': typeof ContactRoute
   '/gallery': typeof GalleryRoute
   '/media': typeof MediaRoute
   '/press': typeof PressRoute
   '/season': typeof SeasonRoute
+  '/api/public/media/$': typeof ApiPublicMediaSplatRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/bio' | '/contact' | '/gallery' | '/media' | '/press' | '/season'
-  fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/bio' | '/contact' | '/gallery' | '/media' | '/press' | '/season'
-  id:
-    | '__root__'
     | '/'
+    | '/admin'
     | '/bio'
     | '/contact'
     | '/gallery'
     | '/media'
     | '/press'
     | '/season'
+    | '/api/public/media/$'
+  fileRoutesByTo: FileRoutesByTo
+  to:
+    | '/'
+    | '/admin'
+    | '/bio'
+    | '/contact'
+    | '/gallery'
+    | '/media'
+    | '/press'
+    | '/season'
+    | '/api/public/media/$'
+  id:
+    | '__root__'
+    | '/'
+    | '/admin'
+    | '/bio'
+    | '/contact'
+    | '/gallery'
+    | '/media'
+    | '/press'
+    | '/season'
+    | '/api/public/media/$'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdminRoute: typeof AdminRoute
   BioRoute: typeof BioRoute
   ContactRoute: typeof ContactRoute
   GalleryRoute: typeof GalleryRoute
   MediaRoute: typeof MediaRoute
   PressRoute: typeof PressRoute
   SeasonRoute: typeof SeasonRoute
+  ApiPublicMediaSplatRoute: typeof ApiPublicMediaSplatRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -115,6 +154,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/bio': {
@@ -159,17 +205,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SeasonRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/media/$': {
+      id: '/api/public/media/$'
+      path: '/api/public/media/$'
+      fullPath: '/api/public/media/$'
+      preLoaderRoute: typeof ApiPublicMediaSplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdminRoute: AdminRoute,
   BioRoute: BioRoute,
   ContactRoute: ContactRoute,
   GalleryRoute: GalleryRoute,
   MediaRoute: MediaRoute,
   PressRoute: PressRoute,
   SeasonRoute: SeasonRoute,
+  ApiPublicMediaSplatRoute: ApiPublicMediaSplatRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
