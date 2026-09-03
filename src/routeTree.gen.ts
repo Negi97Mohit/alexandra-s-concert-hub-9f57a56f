@@ -16,6 +16,7 @@ import { Route as GalleryRouteImport } from './routes/gallery'
 import { Route as MediaRouteImport } from './routes/media'
 import { Route as PressRouteImport } from './routes/press'
 import { Route as SeasonRouteImport } from './routes/season'
+import { Route as ApiPublicMediaSplatRouteImport } from './routes/api/public/media/$'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -52,6 +53,11 @@ const SeasonRoute = SeasonRouteImport.update({
   path: '/season',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicMediaSplatRoute = ApiPublicMediaSplatRouteImport.update({
+  id: '/api/public/media/$',
+  path: '/api/public/media/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -61,6 +67,7 @@ export interface FileRoutesByFullPath {
   '/media': typeof MediaRoute
   '/press': typeof PressRoute
   '/season': typeof SeasonRoute
+  '/api/public/media/$': typeof ApiPublicMediaSplatRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -70,6 +77,7 @@ export interface FileRoutesByTo {
   '/media': typeof MediaRoute
   '/press': typeof PressRoute
   '/season': typeof SeasonRoute
+  '/api/public/media/$': typeof ApiPublicMediaSplatRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -80,13 +88,29 @@ export interface FileRoutesById {
   '/media': typeof MediaRoute
   '/press': typeof PressRoute
   '/season': typeof SeasonRoute
+  '/api/public/media/$': typeof ApiPublicMediaSplatRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/bio' | '/contact' | '/gallery' | '/media' | '/press' | '/season'
+    | '/'
+    | '/bio'
+    | '/contact'
+    | '/gallery'
+    | '/media'
+    | '/press'
+    | '/season'
+    | '/api/public/media/$'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/bio' | '/contact' | '/gallery' | '/media' | '/press' | '/season'
+  to:
+    | '/'
+    | '/bio'
+    | '/contact'
+    | '/gallery'
+    | '/media'
+    | '/press'
+    | '/season'
+    | '/api/public/media/$'
   id:
     | '__root__'
     | '/'
@@ -96,6 +120,7 @@ export interface FileRouteTypes {
     | '/media'
     | '/press'
     | '/season'
+    | '/api/public/media/$'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -106,6 +131,7 @@ export interface RootRouteChildren {
   MediaRoute: typeof MediaRoute
   PressRoute: typeof PressRoute
   SeasonRoute: typeof SeasonRoute
+  ApiPublicMediaSplatRoute: typeof ApiPublicMediaSplatRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -159,6 +185,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SeasonRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/media/$': {
+      id: '/api/public/media/$'
+      path: '/api/public/media/$'
+      fullPath: '/api/public/media/$'
+      preLoaderRoute: typeof ApiPublicMediaSplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -170,6 +203,7 @@ const rootRouteChildren: RootRouteChildren = {
   MediaRoute: MediaRoute,
   PressRoute: PressRoute,
   SeasonRoute: SeasonRoute,
+  ApiPublicMediaSplatRoute: ApiPublicMediaSplatRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
