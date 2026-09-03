@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { useQueryClient } from "@tanstack/react-query";
@@ -242,12 +242,16 @@ function AdminPage() {
   const fileRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    void status().then((r) => setAuthed(r.authed));
+    void status()
+      .then((r) => setAuthed(r.authed))
+      .catch(() => setAuthed(false));
   }, [status]);
 
   useEffect(() => {
     if (!authed) return;
-    void load().then((r) => setContent(mergeContent(JSON.parse(r.json))));
+    void load()
+      .then((r) => setContent(mergeContent(JSON.parse(r.json))))
+      .catch((e) => setMessage(e instanceof Error ? e.message : "Could not load site content"));
   }, [authed, load]);
 
   const patch = <K extends keyof SiteContent>(key: K, value: SiteContent[K]) =>
@@ -331,6 +335,13 @@ function AdminPage() {
   return (
     <div className="min-h-screen">
       <header className="sticky top-0 z-10 flex flex-wrap items-center gap-3 border-b border-border bg-background/95 px-6 py-4 backdrop-blur">
+        <Link
+          to="/"
+          className="inline-flex items-center gap-2 rounded-sm border border-border px-3 py-2 text-xs uppercase tracking-[0.18em] text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+        >
+          <span aria-hidden="true">←</span>
+          Home
+        </Link>
         <h1 className="font-display text-2xl text-primary">Site administration</h1>
         <div className="ml-auto flex items-center gap-3">
           {message && <span className="text-xs text-muted-foreground">{message}</span>}
