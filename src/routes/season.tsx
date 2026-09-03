@@ -3,7 +3,7 @@ import { useState } from "react";
 import { PageHeading, SiteFooter, SiteHeader } from "@/components/SiteChrome";
 import { ConcertCalendar } from "@/components/ConcertCalendar";
 import { ConcertLinks } from "@/components/ConcertLinks";
-import { ARTIST, CONCERTS } from "@/data/dovgan";
+import { useSiteContent } from "@/hooks/useSiteContent";
 import {
   daysUntil,
   formatLongDate,
@@ -60,6 +60,7 @@ function ConcertRow({ concert, today }: { concert: DatedConcert; today: Date }) 
 const UPCOMING_PREVIEW_COUNT = 8;
 
 function SeasonPage() {
+  const { artist: ARTIST, concerts: CONCERTS } = useSiteContent();
   const today = useToday();
   const { upcoming, past } = splitConcerts(CONCERTS, today);
   const [view, setView] = useState<"calendar" | "list">("calendar");

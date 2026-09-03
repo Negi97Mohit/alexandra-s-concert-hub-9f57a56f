@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { PageHeading, SiteFooter, SiteHeader } from "@/components/SiteChrome";
-import { QUOTES, REVIEWS } from "@/data/dovgan";
+import { useSiteContent } from "@/hooks/useSiteContent";
 
 export const Route = createFileRoute("/press")({
   head: () => ({
@@ -27,6 +27,7 @@ export const Route = createFileRoute("/press")({
 const STEP = 10;
 
 function PressPage() {
+  const { quotes: QUOTES, reviews: REVIEWS } = useSiteContent();
   const [count, setCount] = useState(STEP);
   const visible = REVIEWS.slice(0, count);
   const remaining = REVIEWS.length - visible.length;

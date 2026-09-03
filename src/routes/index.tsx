@@ -2,7 +2,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteFooter, SiteHeader } from "@/components/SiteChrome";
 import { ConcertLinks } from "@/components/ConcertLinks";
 import { formatLongDate, splitConcerts, useToday } from "@/lib/concerts";
-import { ARTIST, BIO_INTRO, CONCERTS, MEDIA, NEWS, PHOTOS, QUOTES, REVIEWS } from "@/data/dovgan";
+import { useSiteContent } from "@/hooks/useSiteContent";
+import { SiteImage } from "@/components/SiteImage";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -28,6 +29,17 @@ export const Route = createFileRoute("/")({
 
 function Home() {
   const today = useToday();
+  const {
+    artist: ARTIST,
+    bioIntro: BIO_INTRO,
+    concerts: CONCERTS,
+    media: MEDIA,
+    news: NEWS,
+    photos: PHOTOS,
+    quotes: QUOTES,
+    reviews: REVIEWS,
+    images,
+  } = useSiteContent();
   const { upcoming } = splitConcerts(CONCERTS, today);
 
   return (
@@ -46,10 +58,11 @@ function Home() {
           </div>
         </div>
         <figure className="fade-up">
-          <img
-            src={PHOTOS[7]!.src}
-            alt="Alexandra Dovgan"
-            className="w-full object-cover shadow-[0_30px_80px_-40px_rgba(0,0,0,0.55)]"
+          <SiteImage
+            image={images["homeHero"]}
+            alt={ARTIST.name}
+            loading="eager"
+            className="aspect-[4/5] w-full shadow-[0_30px_80px_-40px_rgba(0,0,0,0.55)]"
           />
         </figure>
       </section>
@@ -61,10 +74,10 @@ function Home() {
       {/* Biography */}
       <section className="mx-auto grid max-w-[1400px] gap-12 px-6 py-24 md:grid-cols-[1fr_1.1fr] md:px-12">
         <figure>
-          <img
-            src={PHOTOS[6]!.src}
-            alt="Alexandra Dovgan in performance, photographed by Vladimir Volkov"
-            className="w-full object-cover"
+          <SiteImage
+            image={images["homeBio"]}
+            alt={`${ARTIST.name} in performance`}
+            className="aspect-[4/5] w-full"
           />
           <figcaption className="mt-3 text-[0.6875rem] uppercase tracking-[0.24em] text-muted-foreground">
             Photography by Vladimir Volkov

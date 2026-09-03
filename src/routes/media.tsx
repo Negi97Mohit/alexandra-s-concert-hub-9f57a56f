@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PageHeading, SiteFooter, SiteHeader } from "@/components/SiteChrome";
-import { MEDIA } from "@/data/dovgan";
+import { useSiteContent } from "@/hooks/useSiteContent";
 
 export const Route = createFileRoute("/media")({
   head: () => ({
@@ -24,6 +24,7 @@ export const Route = createFileRoute("/media")({
 });
 
 function MediaPage() {
+  const { media: MEDIA } = useSiteContent();
   const videos = MEDIA.filter((m) => m.youtubeId);
   const links = MEDIA.filter((m) => !m.youtubeId);
 
